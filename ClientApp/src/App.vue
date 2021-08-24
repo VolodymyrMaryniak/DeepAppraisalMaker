@@ -55,11 +55,12 @@ export default class App extends Vue {
   private drawer = true
   private miniVariant = false
   private right = true
-  private title = 'ASP.NET Core Vue Starter'
+  private title = 'Deep Appraisal Maker'
   private items = [
     { title: 'Home', icon: 'mdi-home', link: '/' },
     { title: 'Counter', icon: 'mdi-gesture-tap', link: '/counter' },
-    { title: 'Fetch data', icon: 'mdi-download', link: '/fetch-data' }
+    { title: 'Fetch data', icon: 'mdi-download', link: '/fetch-data' },
+    { title: 'My Quizzes', icon: 'mdi-school', link: '/quizzes' }
   ]
 }
 </script>

@@ -22,6 +22,16 @@ const routes: Array<RouteConfig> = [
     path: '/fetch-data',
     name: 'fetch-data',
     component: () => import(/* webpackChunkName: "fetch-data" */ '../views/FetchData.vue')
+  },
+  {
+    path: '/quizzes',
+    name: 'quizzes',
+    component: () => import(/* webpackChunkName: "quizzes" */ '../views/Quizzes.vue')
+  },
+  {
+    path: '/quiz-details/:quizId',
+    name: 'quiz-details',
+    component: () => import(/* webpackChunkName: "quiz-details" */ '../views/QuizDetails.vue')
   }
 ]
 

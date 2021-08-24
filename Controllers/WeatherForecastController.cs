@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using AspNetCoreVueStarter.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -27,6 +28,7 @@ namespace AspNetCoreVueStarter.Controllers
         [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {
+            Thread.Sleep(1000);
             var rng = new Random();
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
