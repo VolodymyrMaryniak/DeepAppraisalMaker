@@ -9,6 +9,7 @@ export class QuizDetails {
 export class Question {
     public text?: string
     public answerOptions?: AnswerOption[]
+    public expanded: boolean = false
 }
 
 export class AnswerOption {
