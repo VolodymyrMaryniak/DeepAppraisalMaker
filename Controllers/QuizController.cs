@@ -1,10 +1,12 @@
-﻿using System;
+﻿using AspNetCoreVueStarter.Data.Repositories.Interfaces;
 using AspNetCoreVueStarter.Models.Shared;
 using AspNetCoreVueStarter.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
+using System.Threading.Tasks;
 
 namespace AspNetCoreVueStarter.Controllers
 {
@@ -69,22 +71,25 @@ namespace AspNetCoreVueStarter.Controllers
 			}
 		};
 
-		[HttpGet]
-		public List<QuizSummaryViewModel> GetQuizzes()
+		private readonly IQuizRepository _quizRepository;
+
+		public QuizController(IQuizRepository quizRepository)
 		{
-			Thread.Sleep(1000);
+			_quizRepository = quizRepository;
+		}
 
-			var quizSummaries = _quizzes
-				.OrderByDescending(x => x.CreatedAt)
-				.Select(x => new QuizSummaryViewModel
-				{
-					Id = x.Id,
-					Name = x.Name,
-					CreatedAt = x.CreatedAt,
-					ModifiedAt = x.ModifiedAt
-				}).ToList();
+		[HttpGet]
+		public async Task<List<QuizSummaryViewModel>> GetQuizzes()
+		{
+			var quizEntities = await _quizRepository.GetMany().ToListAsync();
 
-			return quizSummaries;
+			return quizEntities.Select(x => new QuizSummaryViewModel
+			{
+				Id = x.Id,
+				Name = x.Name,
+				CreatedAt = x.CreatedDate,
+				ModifiedAt = x.ModifiedDate
+			}).ToList();
 		}
 
 		[HttpGet]
