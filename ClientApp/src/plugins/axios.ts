@@ -9,7 +9,7 @@ import axios, { AxiosInstance, AxiosRequestConfig } from 'axios'
 // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 const config = {
-  baseURL: process.env.baseURL || process.env.apiUrl || "https://localhost:44326/"
+  baseURL: process.env.baseURL || process.env.apiUrl || "https://localhost:5001/"
   // timeout: 60 * 1000, // Timeout
   // withCredentials: true, // Check cross-site Access-Control
 }

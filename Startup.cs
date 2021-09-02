@@ -37,6 +37,7 @@ namespace AspNetCoreVueStarter
 	            options.UseSqlServer(Configuration.GetConnectionString("DeepAppraisalMaker")));
 
             services.RegisterRepositories();
+            services.RegisterServices();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

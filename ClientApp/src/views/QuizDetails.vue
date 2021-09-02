@@ -33,7 +33,7 @@
                     <v-icon>{{ question.expanded ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
                   </v-btn>
                   <b-form-input
-                    v-bind:id="`question-text-input-${idq}`"
+                    :id="`question-text-input-${idq}`"
                     v-model="question.text"
                     type="text"
                     placeholder="Enter question"
@@ -54,7 +54,7 @@
                         </v-col>
                         <v-col class="col-11">
                           <b-form-input
-                            v-bind:id="`answer-option-input-${idq}-${ido}`"
+                            :id="`answer-option-input-${idq}-${ido}`"
                             v-model="option.text"
                             type="text"
                             placeholder="Enter asnwer option"
@@ -63,11 +63,11 @@
                         </v-col>
                       </v-row>
                     </div>
-                    <button v-on:click="addAnswerOption(question)" class="btn btn-success ml-2 mt-2">Add asnwer option</button>
+                    <button @click.prevent="addAnswerOption(question)" class="btn btn-success ml-2 mt-2">Add asnwer option</button>
                   </div>
                 </div>
 
-                <button v-on:click="addQuestion" class="btn btn-success mt-4">Add question</button>
+                <button @click.prevent="addQuestion" class="btn btn-success mt-4">Add question</button>
               </div>
 
               <b-button type="submit" variant="primary" class="float-end mt-3">Submit</b-button>
