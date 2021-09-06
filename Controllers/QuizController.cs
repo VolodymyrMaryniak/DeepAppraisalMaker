@@ -1,4 +1,6 @@
-﻿using AspNetCoreVueStarter.Models.ViewModels;
+﻿using AspNetCoreVueStarter.Models;
+using AspNetCoreVueStarter.Models.Shared;
+using AspNetCoreVueStarter.Models.ViewModels;
 using AspNetCoreVueStarter.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -29,5 +31,18 @@ namespace AspNetCoreVueStarter.Controllers
         {
             return await _quizService.GetQuizDetailsAsync(quizId);
         }
-	}
+
+        [HttpPost]
+        public async Task<OperationResult> CreateQuiz([FromBody] Quiz quiz)
+        {
+            return await _quizService.CreateQuizAsync(quiz);
+        }
+
+        [HttpPut]
+        [Route("{quizId}")]
+        public async Task<OperationResult> UpdateQuiz([FromRoute] int quizId, [FromBody] Quiz quiz)
+        {
+            return await _quizService.UpdateQuizAsync(quizId, quiz);
+        }
+    }
 }
