@@ -14,6 +14,8 @@ namespace AspNetCoreVueStarter
 {
     public class Startup
     {
+        private static Assembly ExecutingAssembly => Assembly.GetExecutingAssembly();
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -38,7 +40,8 @@ namespace AspNetCoreVueStarter
             services.AddDbContext<DamDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DeepAppraisalMaker")));
 
-            services.AddMediatR(typeof(Startup).GetTypeInfo().Assembly);
+            services.AddMediatR(ExecutingAssembly);
+            services.AddAutoMapper(ExecutingAssembly);
 
             services.RegisterRepositories();
         }

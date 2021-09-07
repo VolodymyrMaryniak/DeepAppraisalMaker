@@ -27,9 +27,9 @@ namespace AspNetCoreVueStarter.Controllers
 
         [HttpGet]
         [Route("{quizId}/details")]
-        public async Task<QuizDetailsQueryResult> GetQuizDetails(QuizDetailsQuery request)
+        public async Task<QuizDetailsQueryResult> GetQuizDetails([FromRoute] int quizId)
         {
-            return await _mediator.Send(request);
+            return await _mediator.Send(new QuizDetailsQuery { QuizId = quizId });
         }
 
         [HttpPost]
@@ -40,8 +40,9 @@ namespace AspNetCoreVueStarter.Controllers
 
         [HttpPut]
         [Route("{quizId}")]
-        public async Task<UpdateQuizCommandResult> UpdateQuiz([FromBody] UpdateQuizCommand request)
+        public async Task<UpdateQuizCommandResult> UpdateQuiz([FromRoute] int quizId, [FromBody] UpdateQuizCommand request)
         {
+            request.Id = quizId;
             return await _mediator.Send(request);
         }
     }

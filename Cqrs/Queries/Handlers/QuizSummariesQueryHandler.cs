@@ -22,15 +22,15 @@ namespace AspNetCoreVueStarter.Cqrs.Queries.Handlers
             var quizEntities = await _quizRepository.GetMany().ToListAsync(cancellationToken);
 
             var quizSummaries = quizEntities
-                .Select(x => new QuizSummariesQueryResult
+                .Select(x => new QuizSummariesQueryResult.QuizSummary
                 {
                     Id = x.Id,
                     Name = x.Name,
                     CreatedAt = x.CreatedDate,
                     ModifiedAt = x.ModifiedDate
-                }).FirstOrDefault();
+                });
 
-            return quizSummaries;
+            return new QuizSummariesQueryResult(quizSummaries);
         }
     }
 }

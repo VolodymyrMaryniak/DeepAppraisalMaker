@@ -21,7 +21,7 @@ namespace AspNetCoreVueStarter.Cqrs.Queries.Handlers
             var quizEntity = await _quizRepository.GetMany()
                  .Include(x => x.Questions)
                  .ThenInclude(x => x.AnswerOptions)
-                 .Where(x => x.Id == request.Id)
+                 .Where(x => x.Id == request.QuizId)
                  .FirstOrDefaultAsync(cancellationToken);
 
             if (quizEntity == null)

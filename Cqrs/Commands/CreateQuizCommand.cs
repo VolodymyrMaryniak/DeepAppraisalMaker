@@ -6,7 +6,7 @@ namespace AspNetCoreVueStarter.Cqrs.Commands
 {
     public class CreateQuizCommand : IRequest<CreateQuizCommandResult>
     {
-        public string QuizName { get; set; }
+        public string Name { get; set; }
         public List<Question> Questions { get; set; }
 
         public class Question

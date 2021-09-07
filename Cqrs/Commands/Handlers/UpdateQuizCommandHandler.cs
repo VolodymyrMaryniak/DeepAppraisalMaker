@@ -27,7 +27,7 @@ namespace AspNetCoreVueStarter.Cqrs.Commands.Handlers
                  .ThenInclude(x => x.AnswerOptions)
                  .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
-            quizEntity.Name = request.QuizName;
+            quizEntity.Name = request.Name;
 
             // Delete not provided questions
             quizEntity.Questions = quizEntity.Questions.Where(x => request.Questions.Any(q => q.Text == x.QuestionText)).ToList();
