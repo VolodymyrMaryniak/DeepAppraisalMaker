@@ -1,11 +1,13 @@
 using AspNetCoreVueStarter.Data;
 using AspNetCoreVueStarter.Extensions;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Reflection;
 using VueCliMiddleware;
 
 namespace AspNetCoreVueStarter
@@ -35,6 +37,8 @@ namespace AspNetCoreVueStarter
 
             services.AddDbContext<DamDbContext>(options =>
 	            options.UseSqlServer(Configuration.GetConnectionString("DeepAppraisalMaker")));
+
+            services.AddMediatR(typeof(Startup).GetTypeInfo().Assembly);
 
             services.RegisterRepositories();
             services.RegisterServices();

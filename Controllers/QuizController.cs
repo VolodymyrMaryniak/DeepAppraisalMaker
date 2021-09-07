@@ -1,9 +1,13 @@
-﻿using AspNetCoreVueStarter.Models;
+﻿using AspNetCoreVueStarter.Cqrs.Commands;
+using AspNetCoreVueStarter.Cqrs.Commands.Results;
+using AspNetCoreVueStarter.Cqrs.Queries;
+using AspNetCoreVueStarter.Cqrs.Queries.Results;
+using AspNetCoreVueStarter.Models;
 using AspNetCoreVueStarter.Models.Shared;
 using AspNetCoreVueStarter.Models.ViewModels;
 using AspNetCoreVueStarter.Services.Interfaces;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace AspNetCoreVueStarter.Controllers
@@ -13,17 +17,19 @@ namespace AspNetCoreVueStarter.Controllers
 	public class QuizController : ControllerBase
 	{
         private readonly IQuizService _quizService;
+        private readonly IMediator _mediator;
 
-		public QuizController(IQuizService quizService)
+		public QuizController(IQuizService quizService, IMediator mediator)
 		{
             _quizService = quizService;
-		}
+            _mediator = mediator;
+        }
 
 		[HttpGet]
-		public async Task<List<QuizSummaryViewModel>> GetQuizzes()
+		public async Task<QuizSummariesQueryResult> GetQuizzes()
         {
-            return await _quizService.GetQuizSummaryViewModelsAsync();
-		}
+            return await _mediator.Send(new QuizSummariesQuery());
+        }
 
 		[HttpGet]
 		[Route("{quizId}/details")]
@@ -33,9 +39,9 @@ namespace AspNetCoreVueStarter.Controllers
         }
 
         [HttpPost]
-        public async Task<OperationResult> CreateQuiz([FromBody] Quiz quiz)
+        public async Task<CreateQuizCommandResult> CreateQuiz([FromBody] CreateQuizCommand request)
         {
-            return await _quizService.CreateQuizAsync(quiz);
+            return await _mediator.Send(request);
         }
 
         [HttpPut]
