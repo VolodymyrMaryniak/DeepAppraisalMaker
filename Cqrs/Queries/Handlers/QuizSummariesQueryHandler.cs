@@ -1,6 +1,5 @@
 ﻿using AspNetCoreVueStarter.Cqrs.Queries.Results;
 using AspNetCoreVueStarter.Data.Repositories.Interfaces;
-using AspNetCoreVueStarter.Models.ViewModels;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
@@ -23,15 +22,15 @@ namespace AspNetCoreVueStarter.Cqrs.Queries.Handlers
             var quizEntities = await _quizRepository.GetMany().ToListAsync(cancellationToken);
 
             var quizSummaries = quizEntities
-                .Select(x => new QuizSummaryViewModel
+                .Select(x => new QuizSummariesQueryResult
                 {
                     Id = x.Id,
                     Name = x.Name,
                     CreatedAt = x.CreatedDate,
                     ModifiedAt = x.ModifiedDate
-                });
+                }).FirstOrDefault();
 
-            return new QuizSummariesQueryResult(quizSummaries);
+            return quizSummaries;
         }
     }
 }

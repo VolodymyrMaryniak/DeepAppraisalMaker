@@ -36,12 +36,11 @@ namespace AspNetCoreVueStarter
             });
 
             services.AddDbContext<DamDbContext>(options =>
-	            options.UseSqlServer(Configuration.GetConnectionString("DeepAppraisalMaker")));
+                options.UseSqlServer(Configuration.GetConnectionString("DeepAppraisalMaker")));
 
             services.AddMediatR(typeof(Startup).GetTypeInfo().Assembly);
 
             services.RegisterRepositories();
-            services.RegisterServices();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -92,14 +91,16 @@ namespace AspNetCoreVueStarter
                 {
 
                     // run npm process with client app
-                    if (mode == "start") {
+                    if (mode == "start")
+                    {
                         spa.UseVueCli(npmScript: "serve", port: port, forceKill: true, https: https);
                     }
 
                     // if you just prefer to proxy requests from client app, use proxy to SPA dev server instead,
                     // app should be already running before starting a .NET client:
                     // run npm process with client app
-                    if (mode == "attach") {
+                    if (mode == "attach")
+                    {
                         spa.UseProxyToSpaDevelopmentServer($"{(https ? "https" : "http")}://localhost:{port}"); // your Vue app port
                     }
                 }

@@ -1,12 +1,12 @@
-﻿using AspNetCoreVueStarter.Models.ViewModels;
-using System.Collections.Generic;
+﻿using System;
 
 namespace AspNetCoreVueStarter.Cqrs.Queries.Results
 {
-    public class QuizSummariesQueryResult : List<QuizSummaryViewModel>
+    public class QuizSummariesQueryResult
     {
-        public QuizSummariesQueryResult(IEnumerable<QuizSummaryViewModel> collection) : base(collection)
-        {
-        }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime ModifiedAt { get; set; }
     }
 }
