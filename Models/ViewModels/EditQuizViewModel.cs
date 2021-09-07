@@ -2,8 +2,8 @@
 
 namespace AspNetCoreVueStarter.Models.ViewModels
 {
-	public class EditQuizViewModel : Quiz
-	{
-		public int Id { get; set; }
-	}
+    public class EditQuizViewModel : Quiz
+    {
+        public int Id { get; set; }
+    }
 }

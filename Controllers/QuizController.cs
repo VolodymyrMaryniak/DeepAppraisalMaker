@@ -1,11 +1,8 @@
-﻿using AspNetCoreVueStarter.Cqrs.Commands;
+﻿using AspNetCoreVueStarter.Cqrs;
+using AspNetCoreVueStarter.Cqrs.Commands;
 using AspNetCoreVueStarter.Cqrs.Commands.Results;
 using AspNetCoreVueStarter.Cqrs.Queries;
 using AspNetCoreVueStarter.Cqrs.Queries.Results;
-using AspNetCoreVueStarter.Models;
-using AspNetCoreVueStarter.Models.Shared;
-using AspNetCoreVueStarter.Models.ViewModels;
-using AspNetCoreVueStarter.Services.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -13,29 +10,27 @@ using System.Threading.Tasks;
 namespace AspNetCoreVueStarter.Controllers
 {
     [ApiController]
-	[Route("api/quizzes")]
-	public class QuizController : ControllerBase
-	{
-        private readonly IQuizService _quizService;
+    [Route("api/quizzes")]
+    public class QuizController : ControllerBase
+    {
         private readonly IMediator _mediator;
 
-		public QuizController(IQuizService quizService, IMediator mediator)
-		{
-            _quizService = quizService;
+        public QuizController(IMediator mediator)
+        {
             _mediator = mediator;
         }
 
-		[HttpGet]
-		public async Task<QuizSummariesQueryResult> GetQuizzes()
+        [HttpGet]
+        public async Task<QuizSummariesQueryResult> GetQuizzes()
         {
             return await _mediator.Send(new QuizSummariesQuery());
         }
 
-		[HttpGet]
-		[Route("{quizId}/details")]
-		public async Task<EditQuizViewModel> GetQuizDetails([FromRoute] int quizId)
+        [HttpGet]
+        [Route("{quizId}/details")]
+        public async Task<QuizDetailsQueryResult> GetQuizDetails([FromRoute] int quizId)
         {
-            return await _quizService.GetQuizDetailsAsync(quizId);
+            return await _mediator.Send(new QuizDetailsQuery { Id = quizId });
         }
 
         [HttpPost]
@@ -46,9 +41,9 @@ namespace AspNetCoreVueStarter.Controllers
 
         [HttpPut]
         [Route("{quizId}")]
-        public async Task<OperationResult> UpdateQuiz([FromRoute] int quizId, [FromBody] Quiz quiz)
+        public async Task<UpdateQuizCommandResult> UpdateQuiz([FromBody] UpdateQuizCommand request)
         {
-            return await _quizService.UpdateQuizAsync(quizId, quiz);
+            return await _mediator.Send(request);
         }
     }
 }
