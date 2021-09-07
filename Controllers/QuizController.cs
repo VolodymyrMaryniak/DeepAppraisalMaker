@@ -27,9 +27,9 @@ namespace AspNetCoreVueStarter.Controllers
 
         [HttpGet]
         [Route("{quizId}/details")]
-        public async Task<QuizDetailsQueryResult> GetQuizDetails()
+        public async Task<QuizDetailsQueryResult> GetQuizDetails(QuizDetailsQuery request)
         {
-            return await _mediator.Send(new QuizDetailsQuery());
+            return await _mediator.Send(request);
         }
 
         [HttpPost]
