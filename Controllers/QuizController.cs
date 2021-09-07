@@ -1,5 +1,4 @@
-﻿using AspNetCoreVueStarter.Cqrs;
-using AspNetCoreVueStarter.Cqrs.Commands;
+﻿using AspNetCoreVueStarter.Cqrs.Commands;
 using AspNetCoreVueStarter.Cqrs.Commands.Results;
 using AspNetCoreVueStarter.Cqrs.Queries;
 using AspNetCoreVueStarter.Cqrs.Queries.Results;
@@ -28,9 +27,9 @@ namespace AspNetCoreVueStarter.Controllers
 
         [HttpGet]
         [Route("{quizId}/details")]
-        public async Task<QuizDetailsQueryResult> GetQuizDetails([FromRoute] int quizId)
+        public async Task<QuizDetailsQueryResult> GetQuizDetails()
         {
-            return await _mediator.Send(new QuizDetailsQuery { Id = quizId });
+            return await _mediator.Send(new QuizDetailsQuery());
         }
 
         [HttpPost]

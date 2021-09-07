@@ -5,11 +5,11 @@ namespace AspNetCoreVueStarter.Cqrs.Queries.Results
 {
     public class QuizDetailsQueryResult
     {
-        public int QuizId { get; set; }
-        public string QuizName { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
         public List<Question> Questions { get; set; }
-        public DateTime QuizCreatedAt { get; set; }
-        public DateTime QuizModifiedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime ModifiedAt { get; set; }
 
         public class Question
         {

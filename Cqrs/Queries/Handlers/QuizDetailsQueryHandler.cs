@@ -29,10 +29,10 @@ namespace AspNetCoreVueStarter.Cqrs.Queries.Handlers
 
             return new QuizDetailsQueryResult
             {
-                QuizId = quizEntity.Id,
-                QuizName = quizEntity.Name,
-                QuizCreatedAt = quizEntity.CreatedDate,
-                QuizModifiedAt = quizEntity.ModifiedDate,
+                Id = quizEntity.Id,
+                Name = quizEntity.Name,
+                CreatedAt = quizEntity.CreatedDate,
+                ModifiedAt = quizEntity.ModifiedDate,
                 Questions = quizEntity.Questions.Select(q => new Question
                 {
                     Text = q.QuestionText,

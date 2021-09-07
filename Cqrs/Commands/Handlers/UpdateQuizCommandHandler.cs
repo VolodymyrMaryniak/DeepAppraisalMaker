@@ -55,7 +55,8 @@ namespace AspNetCoreVueStarter.Cqrs.Commands.Handlers
 
             return new UpdateQuizCommandResult { Success = true };
         }
-        private void UpdateQuestion(QuestionEntity questionEntity, Question question)
+
+        private static void UpdateQuestion(QuestionEntity questionEntity, Question question)
         {
             // Delete not provided answer options
             questionEntity.AnswerOptions = questionEntity.AnswerOptions.Where(x => question.AnswerOptions.Any(o => o.Text == x.AnswerOptionText)).ToList();
@@ -75,7 +76,7 @@ namespace AspNetCoreVueStarter.Cqrs.Commands.Handlers
             }
         }
 
-        private QuestionEntity CreateQuestion(Question question)
+        private static QuestionEntity CreateQuestion(Question question)
         {
             return new QuestionEntity
             {
@@ -89,7 +90,7 @@ namespace AspNetCoreVueStarter.Cqrs.Commands.Handlers
             answerOptionEntity.IsCorrectAnswer = answerOption.IsCorrectAnswer;
         }
 
-        private AnswerOptionEntity CreateAnswerOption(AnswerOption answerOption)
+        private static AnswerOptionEntity CreateAnswerOption(AnswerOption answerOption)
         {
             return new AnswerOptionEntity
             {
