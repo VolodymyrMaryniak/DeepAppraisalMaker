@@ -5,10 +5,6 @@ namespace AspNetCoreVueStarter.Cqrs.Queries.Results
 {
     public class QuizSummariesQueryResult : List<QuizSummariesQueryResult.QuizSummary>
     {
-        public QuizSummariesQueryResult(IEnumerable<QuizSummary> collection) : base(collection)
-        {
-        }
-
         public class QuizSummary
         {
             public int Id { get; set; }
