@@ -1,5 +1,6 @@
 ﻿using AspNetCoreVueStarter.Cqrs.Commands.Results;
 using AspNetCoreVueStarter.Data.Repositories.Interfaces;
+using AspNetCoreVueStarter.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;
@@ -18,10 +19,10 @@ namespace AspNetCoreVueStarter.Cqrs.Commands.Handlers
 
         public async Task<DeleteQuizCommandResult> Handle(DeleteQuizCommand request, CancellationToken cancellationToken)
         {
-            var quizEntity = await _quizRepository.GetMany()
-                 .Include(x => x.Questions)
-                 .ThenInclude(x => x.AnswerOptions)
-                 .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+            var quizEntity = await _quizRepository.GetMany().FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+
+            if (quizEntity == null)
+                throw new NotFoundException();
 
             await _quizRepository.DeleteAsync(quizEntity);
 

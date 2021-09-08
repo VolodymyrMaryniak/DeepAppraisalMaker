@@ -1,7 +1,5 @@
 ﻿using AspNetCoreVueStarter.Cqrs.Commands;
-using AspNetCoreVueStarter.Cqrs.Commands.Results;
 using AspNetCoreVueStarter.Cqrs.Queries;
-using AspNetCoreVueStarter.Cqrs.Queries.Results;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -20,37 +18,43 @@ namespace AspNetCoreVueStarter.Controllers
         }
 
         [HttpGet]
-        public async Task<QuizSummariesQueryResult> GetQuizzes()
+        public async Task<ActionResult> GetQuizzes()
         {
-            return await _mediator.Send(new QuizSummariesQuery());
+            var result = await _mediator.Send(new QuizSummariesQuery());
+            return Ok(result);
         }
 
         [HttpGet]
         [Route("{quizId}/details")]
-        public async Task<QuizDetailsQueryResult> GetQuizDetails([FromRoute] int quizId)
+        public async Task<ActionResult> GetQuizDetails([FromRoute] int quizId)
         {
-            return await _mediator.Send(new QuizDetailsQuery { QuizId = quizId });
+            var result = await _mediator.Send(new QuizDetailsQuery { QuizId = quizId });
+            return Ok(result);
         }
 
         [HttpPost]
-        public async Task<CreateQuizCommandResult> CreateQuiz([FromBody] CreateQuizCommand request)
+        public async Task<ActionResult> CreateQuiz([FromBody] CreateQuizCommand request)
         {
-            return await _mediator.Send(request);
+            var result = await _mediator.Send(request);
+            return Ok(result);
         }
 
         [HttpPut]
         [Route("{quizId}")]
-        public async Task<UpdateQuizCommandResult> UpdateQuiz([FromRoute] int quizId, [FromBody] UpdateQuizCommand request)
+        public async Task<ActionResult> UpdateQuiz([FromRoute] int quizId, [FromBody] UpdateQuizCommand request)
         {
             request.Id = quizId;
-            return await _mediator.Send(request);
+
+            var result = await _mediator.Send(request);
+            return Ok(result);
         }
 
         [HttpDelete]
         [Route("{quizId}")]
-        public async Task<DeleteQuizCommandResult> DeleteQuiz([FromRoute] int quizId)
+        public async Task<ActionResult> DeleteQuiz([FromRoute] int quizId)
         {
-            return await _mediator.Send(new DeleteQuizCommand { Id = quizId });
+            var result = await _mediator.Send(new DeleteQuizCommand { Id = quizId });
+            return Ok(result);
         }
     }
 }
