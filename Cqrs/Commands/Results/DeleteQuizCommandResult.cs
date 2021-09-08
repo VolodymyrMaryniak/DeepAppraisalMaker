@@ -2,8 +2,7 @@
 
 namespace AspNetCoreVueStarter.Cqrs.Commands.Results
 {
-    public class CreateQuizCommandResult : CommandResult
+    public class DeleteQuizCommandResult : CommandResult
     {
-        public int Id { get; set; }
     }
 }

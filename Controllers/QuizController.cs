@@ -45,5 +45,12 @@ namespace AspNetCoreVueStarter.Controllers
             request.Id = quizId;
             return await _mediator.Send(request);
         }
+
+        [HttpDelete]
+        [Route("{quizId}")]
+        public async Task<DeleteQuizCommandResult> DeleteQuiz([FromRoute] int quizId)
+        {
+            return await _mediator.Send(new DeleteQuizCommand { Id = quizId });
+        }
     }
 }
