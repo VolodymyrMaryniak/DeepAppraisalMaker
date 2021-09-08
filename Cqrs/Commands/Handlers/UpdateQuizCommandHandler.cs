@@ -1,23 +1,24 @@
 ﻿using AspNetCoreVueStarter.Cqrs.Commands.Results;
 using AspNetCoreVueStarter.Data.Models;
 using AspNetCoreVueStarter.Data.Repositories.Interfaces;
+using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using static AspNetCoreVueStarter.Cqrs.Commands.UpdateQuizCommand;
 
 namespace AspNetCoreVueStarter.Cqrs.Commands.Handlers
 {
     public class UpdateQuizCommandHandler : IRequestHandler<UpdateQuizCommand, UpdateQuizCommandResult>
     {
         private readonly IQuizRepository _quizRepository;
+        private readonly IMapper _mapper;
 
-        public UpdateQuizCommandHandler(IQuizRepository quizRepository)
+        public UpdateQuizCommandHandler(IQuizRepository quizRepository, IMapper mapper)
         {
             _quizRepository = quizRepository;
+            _mapper = mapper;
         }
 
         public async Task<UpdateQuizCommandResult> Handle(UpdateQuizCommand request, CancellationToken cancellationToken)
@@ -27,76 +28,12 @@ namespace AspNetCoreVueStarter.Cqrs.Commands.Handlers
                  .ThenInclude(x => x.AnswerOptions)
                  .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
-            quizEntity.Name = request.Name;
+            quizEntity = _mapper.Map<QuizEntity>(request);
 
-            // Delete not provided questions
-            quizEntity.Questions = quizEntity.Questions.Where(x => request.Questions.Any(q => q.Text == x.QuestionText)).ToList();
-
-            // Update or create questions
-            foreach (var question in request.Questions)
-            {
-                var existingQuestion = quizEntity.Questions.FirstOrDefault(x => x.QuestionText == question.Text);
-                if (existingQuestion != null)
-                {
-                    UpdateQuestion(existingQuestion, question);
-                }
-                else
-                {
-                    quizEntity.Questions.Add(CreateQuestion(question));
-                }
-            }
-
-            // Save changes
-            if (_quizRepository.HasChanges())
-            {
-                quizEntity.ModifiedDate = DateTime.Now;
-                await _quizRepository.UpdateAsync();
-            }
+            quizEntity.ModifiedDate = DateTime.Now;
+            await _quizRepository.UpdateAsync();
 
             return new UpdateQuizCommandResult { Success = true };
-        }
-
-        private static void UpdateQuestion(QuestionEntity questionEntity, Question question)
-        {
-            // Delete not provided answer options
-            questionEntity.AnswerOptions = questionEntity.AnswerOptions.Where(x => question.AnswerOptions.Any(o => o.Text == x.AnswerOptionText)).ToList();
-
-            // Update or create answer options
-            foreach (var answerOption in question.AnswerOptions)
-            {
-                var existingAnswerOption = questionEntity.AnswerOptions.FirstOrDefault(x => x.AnswerOptionText == answerOption.Text);
-                if (existingAnswerOption != null)
-                {
-                    UpdateAnswerOption(existingAnswerOption, answerOption);
-                }
-                else
-                {
-                    questionEntity.AnswerOptions.Add(CreateAnswerOption(answerOption));
-                }
-            }
-        }
-
-        private static QuestionEntity CreateQuestion(Question question)
-        {
-            return new QuestionEntity
-            {
-                QuestionText = question.Text,
-                AnswerOptions = question.AnswerOptions.Select(CreateAnswerOption).ToList()
-            };
-        }
-
-        private static void UpdateAnswerOption(AnswerOptionEntity answerOptionEntity, AnswerOption answerOption)
-        {
-            answerOptionEntity.IsCorrectAnswer = answerOption.IsCorrectAnswer;
-        }
-
-        private static AnswerOptionEntity CreateAnswerOption(AnswerOption answerOption)
-        {
-            return new AnswerOptionEntity
-            {
-                AnswerOptionText = answerOption.Text,
-                IsCorrectAnswer = answerOption.IsCorrectAnswer
-            };
         }
     }
 }
