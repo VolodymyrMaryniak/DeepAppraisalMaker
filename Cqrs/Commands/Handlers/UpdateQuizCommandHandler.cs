@@ -1,6 +1,7 @@
 ﻿using AspNetCoreVueStarter.Cqrs.Commands.Results;
 using AspNetCoreVueStarter.Data.Models;
 using AspNetCoreVueStarter.Data.Repositories.Interfaces;
+using AspNetCoreVueStarter.Exceptions;
 using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -27,8 +28,10 @@ namespace AspNetCoreVueStarter.Cqrs.Commands.Handlers
                  .Include(x => x.Questions)
                  .ThenInclude(x => x.AnswerOptions)
                  .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+            if (quizEntity == null)
+                throw new NotFoundException();
 
-            quizEntity = _mapper.Map<QuizEntity>(request);
+            _mapper.Map(request, quizEntity);
 
             quizEntity.ModifiedDate = DateTime.Now;
             await _quizRepository.UpdateAsync();
