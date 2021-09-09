@@ -31,7 +31,7 @@ namespace AspNetCoreVueStarter.Cqrs.Commands.Handlers
 
             await _quizRepository.AddAsync(quizEntity);
 
-            return new CreateQuizCommandResult {Success = true};
+            return new CreateQuizCommandResult { Success = true, Id = quizEntity.Id };
         }
     }
 }
