@@ -17,6 +17,7 @@ namespace AspNetCoreVueStarter.Extensions
         public static void RegisterValidators(this IServiceCollection serviceCollection)
         {
             serviceCollection.AddTransient<IValidator<CreateQuizCommand>, CreateQuizCommandValidator>();
+            serviceCollection.AddTransient<IValidator<UpdateQuizCommand>, UpdateQuizCommandValidator>();
         }
     }
 }

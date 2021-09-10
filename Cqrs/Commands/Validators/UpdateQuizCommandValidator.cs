@@ -6,17 +6,20 @@ using System.Linq;
 
 namespace AspNetCoreVueStarter.Cqrs.Commands.Validators
 {
-    public class CreateQuizCommandValidator : AbstractValidator<CreateQuizCommand>
+    public class UpdateQuizCommandValidator : AbstractValidator<UpdateQuizCommand>
     {
         private readonly IQuizRepository _quizRepository;
-        public CreateQuizCommandValidator(IQuizRepository quizRepository)
+
+        public UpdateQuizCommandValidator(IQuizRepository quizRepository)
         {
             _quizRepository = quizRepository;
+
+            RuleFor(x => x.Id).NotEmpty();
             RuleFor(x => x.Name).NotEmpty().MaximumLength(100)
                 .Must((x) => HaveUniqueName(x, _quizRepository)).WithMessage("Question must be unique.");
 
             RuleFor(x => x.Questions).NotNull()
-                .Must(x => HaveUniqueTexts(x)).WithMessage("Question must be unique.");
+                .Must(HaveUniqueTexts).WithMessage("Question must be unique.");
 
             RuleForEach(x => x.Questions)
                 .SetValidator(new QuestionValidator());
@@ -34,14 +37,14 @@ namespace AspNetCoreVueStarter.Cqrs.Commands.Validators
             return true;
         }
 
-        private static bool HaveUniqueTexts(List<CreateQuizCommand.Question> questions)
+        private static bool HaveUniqueTexts(List<UpdateQuizCommand.Question> question)
         {
-            var uniqueAnswerOptionsCount = questions.Select(x => x.Text?.Trim()).Distinct().Count();
+            var uniqueAnswerOptionsCount = question.Select(x => x.Text?.Trim()).Distinct().Count();
 
-            return uniqueAnswerOptionsCount == questions.Count;
+            return uniqueAnswerOptionsCount == question.Count;
         }
 
-        private class QuestionValidator : AbstractValidator<CreateQuizCommand.Question>
+        private class QuestionValidator : AbstractValidator<UpdateQuizCommand.Question>
         {
             public QuestionValidator()
             {
@@ -55,7 +58,7 @@ namespace AspNetCoreVueStarter.Cqrs.Commands.Validators
                     .SetValidator(new AnswerOptionValidator());
             }
 
-            private static bool HaveUniqueTexts(List<CreateQuizCommand.AnswerOption> answerOptions)
+            private static bool HaveUniqueTexts(List<UpdateQuizCommand.AnswerOption> answerOptions)
             {
                 var uniqueAnswerOptionsCount = answerOptions.Select(x => x.Text?.Trim()).Distinct().Count();
 
@@ -63,7 +66,7 @@ namespace AspNetCoreVueStarter.Cqrs.Commands.Validators
             }
         }
 
-        private class AnswerOptionValidator : AbstractValidator<CreateQuizCommand.AnswerOption>
+        private class AnswerOptionValidator : AbstractValidator<UpdateQuizCommand.AnswerOption>
         {
             public AnswerOptionValidator()
             {
