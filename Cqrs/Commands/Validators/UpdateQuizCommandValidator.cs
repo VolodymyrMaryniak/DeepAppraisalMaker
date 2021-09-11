@@ -3,10 +3,11 @@ using FluentValidation;
 
 namespace AspNetCoreVueStarter.Cqrs.Commands.Validators
 {
-    public class CreateQuizCommandValidator : AbstractValidator<CreateQuizCommand>
+    public class UpdateQuizCommandValidator : AbstractValidator<UpdateQuizCommand>
     {
-        public CreateQuizCommandValidator(IValidator<Quiz> quizValidator)
+        public UpdateQuizCommandValidator(IValidator<Quiz> quizValidator)
         {
+            RuleFor(x => x.Id).NotEmpty();
             RuleFor(x => x).SetValidator(quizValidator);
         }
     }
