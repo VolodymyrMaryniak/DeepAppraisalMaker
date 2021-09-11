@@ -1,5 +1,4 @@
 ﻿using AspNetCoreVueStarter.Cqrs.Commands.Results;
-using AspNetCoreVueStarter.Data.Models;
 using AspNetCoreVueStarter.Data.Repositories.Interfaces;
 using AspNetCoreVueStarter.Exceptions;
 using AutoMapper;
