@@ -1,37 +1,22 @@
 ﻿using AspNetCoreVueStarter.Data.Repositories.Interfaces;
 using AspNetCoreVueStarter.Models;
 using FluentValidation;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace AspNetCoreVueStarter.Cqrs.Commands.Validators.Shared
 {
     public class QuizValidator : AbstractValidator<Quiz>
     {
-        private readonly IQuizRepository _quizRepository;
-
         public QuizValidator(IQuizRepository quizRepository)
         {
-            _quizRepository = quizRepository;
-
-            RuleFor(x => x.Name).NotEmpty().MaximumLength(100)
-                .MustAsync(HaveUniqueNameAsync).WithMessage("Quiz name must be unique.");
+            RuleFor(x => x.Name).NotEmpty().MaximumLength(100);
 
             RuleFor(x => x.Questions).NotEmpty()
                 .Must(HaveUniqueTexts).WithMessage("Questions must be unique.");
 
             RuleForEach(x => x.Questions)
                 .SetValidator(new QuestionValidator());
-        }
-
-        private async Task<bool> HaveUniqueNameAsync(string name, CancellationToken cancellationToken)
-        {
-            var quizExists = await _quizRepository.GetMany().AnyAsync(x => x.Name == name, cancellationToken);
-
-            return !quizExists;
         }
 
         private static bool HaveUniqueTexts(List<Quiz.Question> questions)
