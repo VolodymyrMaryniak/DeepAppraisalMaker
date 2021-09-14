@@ -32,6 +32,14 @@ namespace AspNetCoreVueStarter.Controllers
             return Ok(result);
         }
 
+        [HttpGet]
+        [Route("{quizId}/passing")]
+        public async Task<ActionResult> GetQuizForPassing([FromRoute] int quizId)
+        {
+            var result = await _mediator.Send(new QuizPassingQuery { QuizId = quizId });
+            return Ok(result);
+        }
+
         [HttpPost]
         public async Task<ActionResult> CreateQuiz([FromBody] CreateQuizCommand request)
         {
