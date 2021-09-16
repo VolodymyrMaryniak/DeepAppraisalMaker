@@ -28,6 +28,7 @@ namespace AspNetCoreVueStarter.Cqrs.Queries.Handlers
                  .ThenInclude(x => x.AnswerOptions)
                  .Where(x => x.Id == request.QuizId)
                  .FirstOrDefaultAsync(cancellationToken);
+
             if (quizEntity == null)
                 throw new NotFoundException();
 

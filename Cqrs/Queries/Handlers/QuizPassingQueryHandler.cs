@@ -20,6 +20,7 @@ namespace AspNetCoreVueStarter.Cqrs.Queries.Handlers
             _quizRepository = quizRepository;
             _mapper = mapper;
         }
+
         public async Task<QuizPassingQueryResult> Handle(QuizPassingQuery request, CancellationToken cancellationToken)
         {
             var quizEntity = await _quizRepository.GetMany()
@@ -27,6 +28,7 @@ namespace AspNetCoreVueStarter.Cqrs.Queries.Handlers
                   .ThenInclude(x => x.AnswerOptions)
                   .Where(x => x.Id == request.QuizId)
                   .FirstOrDefaultAsync(cancellationToken);
+
             if (quizEntity == null)
                 throw new NotFoundException();
 

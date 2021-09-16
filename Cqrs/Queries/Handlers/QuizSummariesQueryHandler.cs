@@ -3,6 +3,7 @@ using AspNetCoreVueStarter.Data.Repositories.Interfaces;
 using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -22,6 +23,8 @@ namespace AspNetCoreVueStarter.Cqrs.Queries.Handlers
         public async Task<QuizSummariesQueryResult> Handle(QuizSummariesQuery request, CancellationToken cancellationToken)
         {
             var quizEntities = await _quizRepository.GetMany().ToListAsync(cancellationToken);
+
+            quizEntities = quizEntities.Where(x => x.IsActive == true).ToList();
 
             return _mapper.Map<QuizSummariesQueryResult>(quizEntities);
         }
