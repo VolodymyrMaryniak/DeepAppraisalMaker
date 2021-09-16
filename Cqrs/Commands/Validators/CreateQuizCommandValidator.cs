@@ -2,6 +2,7 @@
 using AspNetCoreVueStarter.Models;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -24,7 +25,7 @@ namespace AspNetCoreVueStarter.Cqrs.Commands.Validators
 
         private async Task<bool> HaveUniqueNameAsync(string name, CancellationToken cancellationToken)
         {
-            var quizExists = await _quizRepository.GetMany().AnyAsync(x => x.Name == name, cancellationToken);
+            var quizExists = await _quizRepository.GetMany().Where(x => x.IsActive == true).AnyAsync(x => x.Name == name, cancellationToken);
 
             return !quizExists;
         }

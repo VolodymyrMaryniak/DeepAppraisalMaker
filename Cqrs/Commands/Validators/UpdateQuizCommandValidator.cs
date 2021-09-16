@@ -26,7 +26,7 @@ namespace AspNetCoreVueStarter.Cqrs.Commands.Validators
         }
         private async Task<bool> HaveUniqueNameAsync(string name, int id, CancellationToken cancellationToken)
         {
-            var quizExists = await _quizRepository.GetMany().Where(x => x.Id != id).AnyAsync(x => x.Name == name, cancellationToken);
+            var quizExists = await _quizRepository.GetMany().Where(x => x.Id != id || x.IsActive == true).AnyAsync(x => x.Name == name, cancellationToken);
 
             return !quizExists;
         }
