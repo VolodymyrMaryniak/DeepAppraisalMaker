@@ -15,6 +15,8 @@ namespace AspNetCoreVueStarter.Data
 		public DbSet<QuestionEntity> Questions { get; set; }
 		public DbSet<AnswerOptionEntity> AnswerOptions { get; set; }
 		public DbSet<StudentEntity> Students { get; set; }
+		public DbSet<QuizPassingEntity> QuizPassing { get; set; }
+		public DbSet<StudentAnswerEntity> StudentAnswers { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
@@ -22,6 +24,8 @@ namespace AspNetCoreVueStarter.Data
 			modelBuilder.ApplyConfiguration(new QuestionEntityConfiguration());
 			modelBuilder.ApplyConfiguration(new AnswerOptionEntityConfiguration());
 			modelBuilder.ApplyConfiguration(new StudentEntityConfiguration());
+			modelBuilder.ApplyConfiguration(new QuizPassingEntityConfiguration());
+			modelBuilder.ApplyConfiguration(new StudentAnswerEntityConfiguration());
 		}
 	}
 }
