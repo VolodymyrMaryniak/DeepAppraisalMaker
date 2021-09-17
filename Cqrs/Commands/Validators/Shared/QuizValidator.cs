@@ -1,5 +1,4 @@
-﻿using AspNetCoreVueStarter.Data.Repositories.Interfaces;
-using AspNetCoreVueStarter.Models;
+﻿using AspNetCoreVueStarter.Models;
 using FluentValidation;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +7,7 @@ namespace AspNetCoreVueStarter.Cqrs.Commands.Validators.Shared
 {
     public class QuizValidator : AbstractValidator<Quiz>
     {
-        public QuizValidator(IQuizRepository quizRepository)
+        public QuizValidator()
         {
             RuleFor(x => x.Name).NotEmpty().MaximumLength(100);
 
